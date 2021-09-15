@@ -11,11 +11,11 @@ import {
 import { useState } from "react";
 import DaySchedule from "./DaySchedule";
 import HeartIcon from "@material-ui/icons/Favorite";
-import { useStorage } from "./storage";
 import MainMenu from "./MainMenu";
+import { useData } from "./useData";
 
 export default function App() {
-  const { days, isLoadingSource, sourceData } = useStorage();
+  const { isLoading, sourceData, days, setSchedule, scheduleData } = useData();
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -27,7 +27,7 @@ export default function App() {
     <>
       <AppBar position="fixed" color="inherit">
         <Toolbar>
-          <MainMenu />
+          {/* <MainMenu /> */}
           <Typography variant="h6" align="center">
             <Link color="secondary" href="https://www.kcdc.info/agenda">
               KCDC
@@ -61,7 +61,7 @@ export default function App() {
         </Toolbar>
       </AppBar>
       <Toolbar />
-      {isLoadingSource ? (
+      {isLoading ? (
         <CircularProgress />
       ) : (
         <>
@@ -80,7 +80,14 @@ export default function App() {
           </AppBar>
 
           {days.map((day, i) =>
-            i === tabIndex ? <DaySchedule weekday={day} /> : null
+            i === tabIndex && sourceData ? (
+              <DaySchedule
+                scheduleData={scheduleData}
+                onSetSchedule={setSchedule}
+                sourceData={sourceData}
+                weekday={day}
+              />
+            ) : null
           )}
         </>
       )}

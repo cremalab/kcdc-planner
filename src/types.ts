@@ -20,6 +20,9 @@ export interface SessionData {
   };
 }
 
+export interface ScheduleState {
+  [timestamp: string]: string;
+}
 export interface SessionizeResponse {
   groupId: string | null;
   groupName: string;
