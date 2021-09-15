@@ -1,6 +1,8 @@
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, Slide } from "@material-ui/core";
 import { Talk } from "./types";
-import SessionSelect from "./SessionSelect";
+import { forwardRef, useState } from "react";
+import { TransitionProps } from "@material-ui/core/transitions/transition";
+import SessionSelectContainer from "./SessionSelect.container";
 
 type Props = {
   open: boolean;
@@ -9,11 +11,18 @@ type Props = {
   talks: Talk[];
 };
 
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function SessionDialog({
   onClose,
   selectedValue,
   open,
-  talks
+  talks,
 }: Props) {
   if (talks.length <= 0) {
     return null;
@@ -25,16 +34,13 @@ export default function SessionDialog({
       aria-labelledby="simple-dialog-title"
       open={open}
       scroll="paper"
+      fullScreen
+      TransitionComponent={Transition}
     >
-      <DialogTitle id="simple-dialog-title">Choose Session</DialogTitle>
-      <SessionSelect
-        onClose={(value) => {
-          if (onClose) {
-            onClose(value);
-          }
-        }}
+      <SessionSelectContainer
         talks={talks}
-        initialValue={selectedValue}
+        onClose={onClose}
+        selectedValue={selectedValue}
       />
     </Dialog>
   );

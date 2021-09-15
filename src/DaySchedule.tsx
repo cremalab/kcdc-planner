@@ -33,8 +33,6 @@ export default function DaySchedule({
     time: openSchedule,
   });
 
-  console.log(">>>", currentSession);
-
   return (
     <>
       <List>
@@ -51,21 +49,9 @@ export default function DaySchedule({
 
           return (
             <>
-              {timeSession?.lunch && <Divider />}
-              <ListItem
-                button
-                disabled={timeSession?.breakfast || timeSession?.lunch}
-                onClick={() => setOpenSchedule(time)}
-              >
+              <ListItem button onClick={() => setOpenSchedule(time)}>
                 <ListItemIcon>
-                  {timeSession?.lunch || timeSession?.breakfast ? (
-                    <LunchIcon />
-                  ) : (
-                    <Typography variant="subtitle2">{time}</Typography>
-                    // <Zoom in={Boolean(schedule[time])} timeout={500}>
-                    //   <StarIcon color="primary" />
-                    // </Zoom>
-                  )}
+                  <Typography variant="subtitle2">{time}</Typography>
                 </ListItemIcon>
                 <ListItemText
                   inset
@@ -76,18 +62,10 @@ export default function DaySchedule({
                         )
                       : ""
                   }
-                  primary={
-                    sessionObject?.title ||
-                    (timeSession?.lunch
-                      ? "Lunch"
-                      : timeSession?.breakfast
-                      ? "Breakfast"
-                      : "-- Select Session --")
-                  }
+                  primary={sessionObject?.title || "-- Select Session --"}
                 />
               </ListItem>
-              {timeSession?.breakfast && <Divider />}
-              {timeSession?.lunch && <Divider />}
+              <Divider />
             </>
           );
         })}
@@ -95,7 +73,9 @@ export default function DaySchedule({
       <SessionDialog
         open={Boolean(openSchedule)}
         talks={currentSession ? currentSession.talks : []}
-        selectedValue={openSchedule && scheduleData[openSchedule]}
+        selectedValue={
+          openSchedule && scheduleData[`${weekday}-${openSchedule}`]
+        }
         onClose={(value) => {
           if (openSchedule && value) {
             onSetSchedule(`${weekday}-${openSchedule}`, value);
