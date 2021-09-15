@@ -6,7 +6,7 @@ import {
   Tab,
   Tabs,
   Toolbar,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { useState } from "react";
 import DaySchedule from "./DaySchedule";
@@ -41,7 +41,7 @@ export default function App() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                paddingTop: 4
+                paddingTop: 4,
               }}
             >
               {/* <Box mr={0.5}>Made with</Box> */}
@@ -69,7 +69,7 @@ export default function App() {
             position="static"
             color="default"
             style={{
-              top: 40
+              top: 40,
             }}
           >
             <Tabs value={tabIndex} onChange={handleChange} variant="fullWidth">
@@ -80,9 +80,7 @@ export default function App() {
           </AppBar>
 
           {days.map((day, i) =>
-            i === tabIndex ? (
-              <DaySchedule sourceData={sourceData} weekday={day} />
-            ) : null
+            i === tabIndex ? <DaySchedule weekday={day} /> : null
           )}
         </>
       )}
