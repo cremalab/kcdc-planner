@@ -14,7 +14,7 @@ export const themeOptions: ThemeOptions = {
   palette: {
     type: "dark",
     primary: {
-      main: "#1E1B29"
+      main: "#BA666E"
     },
     secondary: {
       main: "#ff4858"

@@ -5,12 +5,14 @@ import {
   ListItemText,
   Divider,
   Typography,
+  Box,
+  LinearProgress,
 } from "@material-ui/core";
 import { useState } from "react";
 import SessionDialog from "./SessionDialog";
-import LunchIcon from "@material-ui/icons/Restaurant";
 import { getTimeSchedule } from "./common";
 import { ScheduleState, SessionData } from "./types";
+import { TimelineDot } from "@material-ui/lab";
 
 type Props = {
   weekday: string;
@@ -51,7 +53,7 @@ export default function DaySchedule({
             <>
               <ListItem button onClick={() => setOpenSchedule(time)}>
                 <ListItemIcon>
-                  <Typography variant="subtitle2">{time}</Typography>
+                  <Typography variant="overline">{time}</Typography>
                 </ListItemIcon>
                 <ListItemText
                   inset
