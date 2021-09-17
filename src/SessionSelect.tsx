@@ -1,19 +1,14 @@
 import {
   Box,
-  Button,
   Chip,
-  DialogActions,
-  DialogContent,
   Divider,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Typography,
 } from "@material-ui/core";
 import { Talk } from "./types";
-import StarIcon from "@material-ui/icons/Star";
-import React, { useState } from "react";
+import React from "react";
 
 type Props = {
   talks: Talk[];

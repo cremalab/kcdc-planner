@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { differenceInSeconds, format, isAfter, isBefore } from "date-fns";
 import { SessionData, Session, SessionizeResponse, Talk } from "./types";
 import { keyBy } from "lodash";
 
@@ -20,9 +20,10 @@ export function normalizeSessions(payload: SessionizeResponse[]): SessionData {
   let sessionData: SessionData = {};
 
   sessions.forEach((session) => {
-    const date = new Date(session.startsAt);
-    const day = format(date, "E, P");
-    const time = format(date, "h:mmaaa");
+    const startDate = new Date(session.startsAt);
+    const endDate = new Date(session.endsAt);
+    const day = format(startDate, "E, P");
+    const time = format(startDate, "h:mmaaa");
 
     const categoryMap = keyBy(session.categories, "name");
     // const sessionMap = categoryMap['Session format'].categoryItems;
@@ -32,6 +33,8 @@ export function normalizeSessions(payload: SessionizeResponse[]): SessionData {
     const newData: Talk = {
       id: session.id,
       title: session.title,
+      startDate,
+      endDate,
       presenter: session.speakers.map((s) => s.name).join(", "),
       summary: session.description,
       room: session.room,
@@ -53,4 +56,27 @@ export function normalizeSessions(payload: SessionizeResponse[]): SessionData {
   });
 
   return sessionData;
+}
+
+
+export function getDatePercentageValue({
+  currentDate,
+  startDate,
+  endDate,
+}: {
+  currentDate: Date;
+  startDate: Date;
+  endDate: Date;
+}) {
+  if (isAfter(currentDate, endDate)) {
+    return 100;
+  }
+  if (isBefore(currentDate, startDate)) {
+    return 0;
+  }
+
+  const totalSeconds = differenceInSeconds(startDate, endDate);
+  const totalAccumulated = differenceInSeconds(startDate, currentDate);
+
+  return (totalAccumulated / totalSeconds) * 100;
 }

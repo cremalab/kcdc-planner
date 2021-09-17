@@ -1,18 +1,16 @@
 import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
   Typography,
-  Box,
+  ButtonBase,
+  makeStyles,
   LinearProgress,
+  Divider,
 } from "@material-ui/core";
-import { useState } from "react";
+import React, { useState } from "react";
 import SessionDialog from "./SessionDialog";
-import { getTimeSchedule } from "./common";
+import { getDatePercentageValue, getTimeSchedule } from "./common";
 import { ScheduleState, SessionData } from "./types";
-import { TimelineDot } from "@material-ui/lab";
+import { useEffect } from "react";
+import { addMinutes, subMinutes } from "date-fns";
 
 type Props = {
   weekday: string;
@@ -21,23 +19,47 @@ type Props = {
   onSetSchedule: (timeStamp: string, sessionId: string) => void;
 };
 
+const useStyles = makeStyles((theme) => ({
+  item: {
+    display: "block",
+    width: "100%",
+    padding: theme.spacing(1),
+    textAlign: "left",
+    "&:hover": {
+      textDecoration: "none",
+      backgroundColor: theme.palette.action.hover,
+      // Reset on touch devices, it doesn't add specificity
+      "@media (hover: none)": {
+        backgroundColor: "transparent",
+      },
+    },
+  },
+}));
+
 export default function DaySchedule({
   weekday,
   sourceData,
   scheduleData,
   onSetSchedule,
 }: Props) {
+  const classes = useStyles();
   const times = sourceData ? Object.keys(sourceData[weekday]) : [];
   const [openSchedule, setOpenSchedule] = useState<string | undefined>();
-
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const currentSession = getTimeSchedule(sourceData, {
     day: weekday,
     time: openSchedule,
   });
 
+  useEffect(() => {
+    setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+  }, []);
+
   return (
     <>
-      <List>
+      <div>
         {times.map((time) => {
           const currentSessionId = scheduleData[`${weekday}-${time}`];
           const timeSession = getTimeSchedule(sourceData, {
@@ -50,28 +72,55 @@ export default function DaySchedule({
           );
 
           return (
-            <>
-              <ListItem button onClick={() => setOpenSchedule(time)}>
-                <ListItemIcon>
-                  <Typography variant="overline">{time}</Typography>
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  secondary={
-                    sessionObject
-                      ? [sessionObject.presenter, sessionObject.room].join(
-                          " / "
-                        )
-                      : ""
-                  }
-                  primary={sessionObject?.title || "-- Select Session --"}
+            <React.Fragment key={time}>
+              <ButtonBase
+                className={classes.item}
+                onClick={() => setOpenSchedule(time)}
+              >
+                <Typography variant="overline" component="div">
+                  {time}
+                </Typography>
+
+                {sessionObject && (
+                  <Typography
+                    color="textSecondary"
+                    variant="caption"
+                    component="div"
+                  >
+                    {[sessionObject.presenter, sessionObject.room].join(" • ")}
+                  </Typography>
+                )}
+                {sessionObject?.title ? (
+                  <Typography variant="h6" component="div">
+                    {sessionObject.title}
+                  </Typography>
+                ) : (
+                  <Typography
+                    color="textSecondary"
+                    variant="h6"
+                    component="div"
+                  >
+                    -- Select Session --
+                  </Typography>
+                )}
+              </ButtonBase>
+              {sessionObject ? (
+                <LinearProgress
+                  color="secondary"
+                  variant="determinate"
+                  value={getDatePercentageValue({
+                    currentDate: currentTime,
+                    startDate: sessionObject.startDate,
+                    endDate: sessionObject.endDate,
+                  })}
                 />
-              </ListItem>
-              <Divider />
-            </>
+              ) : (
+                <Divider />
+              )}
+            </React.Fragment>
           );
         })}
-      </List>
+      </div>
       <SessionDialog
         open={Boolean(openSchedule)}
         talks={currentSession ? currentSession.talks : []}

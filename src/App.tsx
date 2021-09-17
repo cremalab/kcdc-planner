@@ -3,25 +3,16 @@ import {
   Box,
   CircularProgress,
   Link,
-  Tab,
-  Tabs,
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
 import DaySchedule from "./DaySchedule";
 import HeartIcon from "@material-ui/icons/Favorite";
-import MainMenu from "./MainMenu";
 import { useData } from "./useData";
+import ScheduleTabs from "./ScheduleTabs";
 
 export default function App() {
   const { isLoading, sourceData, days, setSchedule, scheduleData } = useData();
-
-  const [tabIndex, setTabIndex] = useState(0);
-
-  const handleChange = (event: React.ChangeEvent<{}>, index: number) => {
-    setTabIndex(index);
-  };
 
   return (
     <>
@@ -64,32 +55,23 @@ export default function App() {
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <>
-          <AppBar
-            position="static"
-            color="default"
-            style={{
-              top: 40,
-            }}
-          >
-            <Tabs value={tabIndex} onChange={handleChange} variant="fullWidth">
-              {days.map((day) => (
-                <Tab label={day} />
-              ))}
-            </Tabs>
-          </AppBar>
-
-          {days.map((day, i) =>
-            i === tabIndex && sourceData ? (
-              <DaySchedule
-                scheduleData={scheduleData}
-                onSetSchedule={setSchedule}
-                sourceData={sourceData}
-                weekday={day}
-              />
-            ) : null
+        <ScheduleTabs days={days}>
+          {(tabIndex) => (
+            <>
+              {days.map((day, i) =>
+                i === tabIndex && sourceData ? (
+                  <DaySchedule
+                    key={i}
+                    scheduleData={scheduleData}
+                    onSetSchedule={setSchedule}
+                    sourceData={sourceData}
+                    weekday={day}
+                  />
+                ) : null
+              )}
+            </>
           )}
-        </>
+        </ScheduleTabs>
       )}
     </>
   );

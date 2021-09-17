@@ -6,6 +6,8 @@ export interface Talk {
   room: string;
   category?: string;
   level?: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface Session {
