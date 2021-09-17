@@ -91,13 +91,13 @@ export default function DaySchedule({
                   </Typography>
                 )}
                 {sessionObject?.title ? (
-                  <Typography variant="h6" component="div">
+                  <Typography variant="body1" component="div">
                     {sessionObject.title}
                   </Typography>
                 ) : (
                   <Typography
                     color="textSecondary"
-                    variant="h6"
+                    variant="body1"
                     component="div"
                   >
                     -- Select Session --
