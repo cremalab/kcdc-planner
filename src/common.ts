@@ -26,9 +26,8 @@ export function normalizeSessions(payload: SessionizeResponse[]): SessionData {
     const time = format(startDate, "h:mmaaa");
 
     const categoryMap = keyBy(session.categories, "name");
-    // const sessionMap = categoryMap['Session format'].categoryItems;
-    const trackMap = categoryMap["Track"].categoryItems;
-    const levelMap = categoryMap["Level"].categoryItems;
+    const trackMap = categoryMap["Track"] ? categoryMap["Track"].categoryItems : [];
+    const levelMap = categoryMap["Level"] ? categoryMap["Level"].categoryItems : [];
 
     const newData: Talk = {
       id: session.id,

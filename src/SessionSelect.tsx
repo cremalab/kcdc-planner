@@ -35,7 +35,7 @@ export default function SessionSelect({ talks, value, onSelect }: Props) {
                   <>
                     <Typography
                       component="div"
-                      variant="body2"
+                      variant="caption"
                       color="textPrimary"
                     >
                       {presenter} ({room})

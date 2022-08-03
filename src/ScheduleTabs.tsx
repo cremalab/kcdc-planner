@@ -9,7 +9,10 @@ type Props = {
 
 export default function ScheduleTabs({ days, children }: Props) {
   const today = format(new Date(), "E, P");
-  const [tabIndex, setTabIndex] = useState(days.indexOf(today) || 0);
+  const initialTabIndex = days.indexOf(today);
+  const [tabIndex, setTabIndex] = useState(
+    initialTabIndex > -1 ? initialTabIndex : 0
+  );
 
   const handleChange = (event: React.ChangeEvent<{}>, index: number) => {
     setTabIndex(index);
