@@ -1,4 +1,11 @@
-import { Button, IconButton, Snackbar } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
 import { useState } from "react";
 import { useAuth } from "../lib/useAuth";
 import { useFirebaseData } from "../lib/useFirebaseData";
@@ -26,29 +33,22 @@ export function SnackbarData() {
   }
 
   return (
-    <Snackbar
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-      open={forceClose ? false : open}
-      onClose={handleClose}
-      message={
-        <>
+    <Dialog open={forceClose ? false : open} onClose={handleClose}>
+      <DialogTitle id="alert-dialog-title">{"Logged In!"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
           <b>You have data saved locally</b>, would you like to use this for
           your new session?
-        </>
-      }
-      action={
-        <>
-          <Button color="secondary" size="small" onClick={handleCopy}>
-            Yes Please!
-          </Button>
-          <Button color="secondary" size="small" onClick={handleClose}>
-            Dismiss
-          </Button>
-        </>
-      }
-    />
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Dismiss
+        </Button>
+        <Button onClick={handleCopy} color="primary" autoFocus>
+          Yes Please!
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
