@@ -7,7 +7,7 @@ import {
   ListItemText,
   Typography,
 } from "@material-ui/core";
-import { Talk } from "./types";
+import { Talk } from "../types";
 import React from "react";
 
 type Props = {
@@ -31,6 +31,9 @@ export default function SessionSelect({ talks, value, onSelect }: Props) {
             >
               <ListItemText
                 primary={title}
+                secondaryTypographyProps={{
+                  component: "div",
+                }}
                 secondary={
                   <>
                     <Typography

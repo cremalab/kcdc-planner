@@ -5,7 +5,7 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { Talk } from "./types";
+import { Talk } from "../types";
 import SessionSelect from "./SessionSelect";
 import CloseIcon from "@material-ui/icons/Close";
 import { useState } from "react";
