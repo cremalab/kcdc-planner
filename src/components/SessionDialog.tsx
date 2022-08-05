@@ -1,5 +1,5 @@
 import { Dialog, Slide } from "@material-ui/core";
-import { Talk } from "./types";
+import { Talk } from "../types";
 import { forwardRef, useState } from "react";
 import { TransitionProps } from "@material-ui/core/transitions/transition";
 import SessionSelectContainer from "./SessionSelect.container";

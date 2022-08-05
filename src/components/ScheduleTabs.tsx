@@ -20,13 +20,7 @@ export default function ScheduleTabs({ days, children }: Props) {
 
   return (
     <>
-      <AppBar
-        position="static"
-        color="default"
-        style={{
-          top: 40,
-        }}
-      >
+      <AppBar position="static" color="default">
         <Tabs value={tabIndex} onChange={handleChange} variant="fullWidth">
           {days.map((day, i) => (
             <Tab key={i} label={day} />

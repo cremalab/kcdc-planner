@@ -7,15 +7,14 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import SessionDialog from "./SessionDialog";
-import { getDatePercentageValue, getTimeSchedule } from "./common";
-import { ScheduleState, SessionData } from "./types";
+import { getDatePercentageValue, getTimeSchedule } from "../lib/common";
+import { ScheduleState, SessionData } from "../types";
 import { useEffect } from "react";
-import { addMinutes, subMinutes } from "date-fns";
 
 type Props = {
   weekday: string;
   sourceData: SessionData;
-  scheduleData: ScheduleState;
+  scheduleData?: ScheduleState | null;
   onSetSchedule: (timeStamp: string, sessionId: string) => void;
 };
 
@@ -61,7 +60,7 @@ export default function DaySchedule({
     <>
       <div>
         {times.map((time) => {
-          const currentSessionId = scheduleData[`${weekday}-${time}`];
+          const currentSessionId = scheduleData?.[`${weekday}-${time}`];
           const timeSession = getTimeSchedule(sourceData, {
             day: weekday,
             time,
@@ -125,7 +124,7 @@ export default function DaySchedule({
         open={Boolean(openSchedule)}
         talks={currentSession ? currentSession.talks : []}
         selectedValue={
-          openSchedule && scheduleData[`${weekday}-${openSchedule}`]
+          openSchedule && scheduleData?.[`${weekday}-${openSchedule}`]
         }
         onClose={(value) => {
           if (openSchedule && value) {

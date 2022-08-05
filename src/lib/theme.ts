@@ -1,15 +1,5 @@
 import { ThemeOptions } from "@material-ui/core";
 
-// dark theme?
-
-// 1E1B29
-
-// We're Hiring
-
-// dismissable banner? => #1E1B29
-
-// circular crema logo bottom right?
-
 export const themeOptions: ThemeOptions = {
   palette: {
     type: "dark",

@@ -2,7 +2,7 @@ import { render } from "react-dom";
 
 import App from "./App";
 import { CssBaseline, ThemeProvider, createTheme } from "@material-ui/core";
-import { themeOptions } from "./theme";
+import { themeOptions } from "./lib/theme";
 
 const rootElement = document.getElementById("root");
 render(

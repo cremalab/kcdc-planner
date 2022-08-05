@@ -1,5 +1,5 @@
 import { differenceInSeconds, format, isAfter, isBefore } from "date-fns";
-import { SessionData, Session, SessionizeResponse, Talk } from "./types";
+import { SessionData, Session, SessionizeResponse, Talk } from "../types";
 import { keyBy } from "lodash";
 
 export function getTimeSchedule(
