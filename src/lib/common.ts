@@ -1,4 +1,4 @@
-import { differenceInSeconds, format, isAfter, isBefore } from "date-fns";
+import { differenceInSeconds, format, isAfter, isBefore, parseISO, toDate } from "date-fns";
 import { SessionData, Session, SessionizeResponse, Talk } from "../types";
 import { keyBy } from "lodash";
 
@@ -20,8 +20,8 @@ export function normalizeSessions(payload: SessionizeResponse[]): SessionData {
   let sessionData: SessionData = {};
 
   sessions.forEach((session) => {
-    const startDate = new Date(session.startsAt);
-    const endDate = new Date(session.endsAt);
+    const startDate = parseISO(session.startsAt);
+    const endDate = parseISO(session.endsAt);
     const day = format(startDate, "E, P");
     const time = format(startDate, "h:mmaaa");
 
